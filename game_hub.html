@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI STEM Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: rgba(15, 52, 96, 0.95);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-self: center;
+            max-width: 300px;
+        }
+
+        .search-bar input {
+            padding: 0.6rem 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 0.95rem;
+            transition: border-color 0.3s, background 0.3s;
+            width: 100%;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #f39c12;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-bar button {
+            padding: 0.6rem 1rem;
+            background: #f39c12;
+            border: none;
+            border-radius: 5px;
+            color: #1a1a2e;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .search-bar button:hover {
+            background: #e67e22;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            justify-self: end;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #f39c12;
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #ecf0f1;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out 0.2s backwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease-out 0.4s backwards;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #f39c12;
+            color: #f39c12;
+        }
+
+        .btn-secondary:hover {
+            background: #f39c12;
+            color: #1a1a2e;
+            transform: translateY(-2px);
+        }
+
+        /* Section Titles */
+        .section-title {
+            max-width: 1200px;
+            margin: 2rem auto 1rem;
+            padding: 0 2rem;
+            font-size: 2rem;
+            color: #f39c12;
+            border-left: 4px solid #f39c12;
+            padding-left: 1rem;
+        }
+
+        /* Games Grid */
+        .games-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #e74c3c, #3498db);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .game-info {
+            padding: 1.5rem;
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .game-genre {
+            color: #f39c12;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .game-description {
+            color: #bdc3c7;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .game-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .stars {
+            color: #f39c12;
+        }
+
+        .play-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .play-btn:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+        }
+
+        /* Category Filter */
+        .category-filter {
+            max-width: 1200px;
+            margin: 1rem auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #f39c12;
+            border-color: #f39c12;
+            color: #1a1a2e;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(15, 52, 96, 0.95);
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #f39c12;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav>
+            <div class="logo">🎮 AI Game Hub</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search games...">
+                <button>Search</button>
+            </div>
+            <ul class="nav-links">
+                <li><a href="categories.html">Categories</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="featured">
+        <h1>Welcome to the STEM AI Game Hub</h1>
+        <p>Play and learn with AI through STEM related games</p>
+    </section>
+
+    <!-- Featured Games -->
+    <h2 class="section-title">✨ Games</h2>
+    <div class="games-grid" id="featured-games">
+        <div class="game-card">
+            <div class="game-image">🤖</div>
+            <div class="game-info">
+                <div class="game-title">AI Chess Master</div>
+                <div class="game-genre">Strategy</div>
+                <p class="game-description">Challenge advanced AI opponents in classic chess. Learn strategies and improve your skills.</p>
+                <div class="game-rating">
+                    <span class="stars">★★★★★</span>
+                    <span>(4.8/5)</span>
+                </div>
+                <button class="play-btn">Play Now</button>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-image">🧩</div>
+            <div class="game-info">
+                <div class="game-title">Puzzle Quest</div>
+                <div class="game-genre">Puzzle</div>
+                <p class="game-description">Solve challenging puzzles with AI hints. Test your problem-solving abilities!</p>
+                <div class="game-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span>(4.6/5)</span>
+                </div>
+                <button class="play-btn">Play Now</button>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-image">🎯</div>
+            <div class="game-info">
+                <div class="game-title">Target Blitz</div>
+                <div class="game-genre">Action</div>
+                <p class="game-description">Fast-paced action game where you race against AI. Beat high scores!</p>
+                <div class="game-rating">
+                    <span class="stars">★★★★★</span>
+                    <span>(4.9/5)</span>
+                </div>
+                <button class="play-btn">Play Now</button>
+            </div>
+        </div>
+
+        <div class="game-card">
+            <div class="game-image">🎰</div>
+            <div class="game-info">
+                <div class="game-title">Lucky Numbers</div>
+                <div class="game-genre">Casual</div>
+                <p class="game-description">A fun number matching game. Play casually and relax with AI companions.</p>
+                <div class="game-rating">
+                    <span class="stars">★★★★☆</span>
+                    <span>(4.5/5)</span>
+                </div>
+                <button class="play-btn">Play Now</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+   
+
+    <script>
+        // Category filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Navigate to categories page
+                window.location.href = 'categories.html';
+            });
+        });
+
+
+        // Play button functionality
+        const playButtons = document.querySelectorAll('.play-btn');
+        
+        playButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const gameTitle = this.closest('.game-card').querySelector('.game-title').textContent;
+                alert(`Starting: ${gameTitle}!\n\nGet ready for an amazing gaming experience!`);
+            });
+        });
+
+        // CTA buttons functionality
+        const ctaButtons = document.querySelectorAll('.cta-buttons .btn');
+        
+        ctaButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const buttonText = this.textContent.trim();
+                alert(`Thanks for your interest in "${buttonText}"!\n\nThis feature will be available soon.`);
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
